@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Best Voter{% endblock %}</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand"href="{% url 'index' %}">SmartBin </a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'index' %}">Главная <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'create_post' %}">Подключение устройства</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link " href="{% url 'logout' %}" tabindex="-1" aria-disabled="true">Выход</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link " href="{% url 'login' %}" tabindex="-1" aria-disabled="true">Зайти</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="{% url 'signup' %}" tabindex="-1" aria-disabled="true">Зарегистрироваться </a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+<div class="container" style="border: 1px solid black; margin: 20px; padding: 20px;">
+        {% block content %}
+      {% endblock %}
+</div>
+
+</body>
+</html>

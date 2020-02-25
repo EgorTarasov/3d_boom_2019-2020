@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %} Main Page {% endblock %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <h1> Имя пользователя: {{ request.user.username | title }}! </h1>
+        <br>
+        <a class="btn btn-primary" href="{% url 'logout' %}"> Выйти </a>
+        <a class="btn btn-primary" href="{% url 'create_post' %}">Добавить устройство</a>
+        <br>
+        <h2>Мусорки</h2>
+    {% else %}
+        <h1> Hello! </h1>
+        <br>
+        <h2>You need to be logged in to use the service fully</h2>
+        <br>
+        <a class="btn btn-success" href="{% url 'login' %}" style="display:block"> Зайти </a>
+    {% endif %}
+    {% for each in bins %}
+            <div class="card" style="width: 18rem;display:inline-block" >
+              <div class="card-body">
+                <h3 class="card-title">{{ each.field_addres }}</h3>
+                <p class="card-text">{{ each.ip_addres }}</p>
+                  <p class="card-text">{{each.field_data}} / 100 %</p>
+                </p>
+                  <a href="{{ each.id }}" class="btn btn-primary">Узнать больше</a>
+
+              </div>
+            </div>
+
+    {% endfor %}
+{% endblock %}
