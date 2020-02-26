@@ -23,4 +23,6 @@ urlpatterns = [
     path('post/', views.createBin, name='create_post'),
     path('signup/', views.SignUp.as_view(), name='signup'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('<int:bin_id>', views.binview, name='view'),
+    path('<int:bin_id>/refresh/<int:data>', views.refresh, name='refresh'),
 ]

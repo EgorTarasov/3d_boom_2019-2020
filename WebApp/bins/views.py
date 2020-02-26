@@ -36,3 +36,23 @@ def createBin(request):
     else:
         context['form'] = BinForm()
     return render(request, 'bin.html', context)
+
+def refresh(request, bin_id, data):
+    bins = Bins.objects.all()
+    bin = bins[int(bin_id) - 1]
+    bin.ref(data)
+    bin.save()
+    context = dict()
+    posts = Bins.objects.all()
+    context['bins'] = posts
+    return render(request, 'index.html', context)
+
+def binview(request, bin_id):
+    bins = Bins.objects.all()
+    bin = bins[int(bin_id) - 1]
+    context = dict()
+    context['addres'] = bin.field_addres
+    context['data'] = bin.field_data
+    context['ip'] = bin.ip_addres
+    context['id'] = bin.id
+    return render(request, 'tittle_page.html', context)
