@@ -20,8 +20,8 @@
     {% for each in bins %}
             <div class="card" style="width: 18rem;display:inline-block" >
               <div class="card-body">
-                <h3 class="card-title">{{ each.field_addres }}</h3>
-                <p class="card-text">{{ each.ip_addres }}</p>
+                <h3 class="card-title adr">{{ each.field_addres }}</h3>
+                <p class="card-text data">{{ each.ip_addres }}</p>
                   <p class="card-text">{{each.field_data}} / 100 %</p>
                 </p>
                   <a href="{{ each.id }}" class="btn btn-primary">Узнать больше</a>
@@ -31,15 +31,31 @@
     {% endfor %}
         <div class="card">
             <script src="https://api-maps.yandex.ru/2.1/?apikey=в22319956-7c8b-4d3a-82d1-57c7c0876e9d&lang=ru_RU" type="text/javascript"></script>
-    <script type="text/javascript">
-        ymaps.ready(function(){
-            // Указывается идентификатор HTML-элемента.
-            var moscow_map = new ymaps.Map("first_map", {
-                center: [55.76, 37.64],
-                zoom: 10
-            });
-        });
-  </script>
+            <script type="text/javascript">
+                ymaps.ready(function(){
+
+                    let moscow_map = new ymaps.Map("first_map", {
+                        center: [55.76, 37.64],
+                        zoom: 10
+                    });
+                    myPlacemark = new ymaps.Placemark([55.785078, 37.453163], {
+                    hintContent: 'Живописаня 11с1',
+                    balloonContent: ''
+                }, {
+                    // Опции.
+                    // Необходимо указать данный тип макета.
+                    iconLayout: 'default#image',
+                    // Своё изображение иконки метки.
+                    // Размеры метки.
+                    iconImageSize: [30, 42],
+                    // Смещение левого верхнего угла иконки относительно
+                    // её "ножки" (точки привязки).
+                    iconImageOffset: [-5, -38]
+                }),
+
+                moscow_map.geoObjects.add(myPlacemark)
+                    });
+          </script>
     <div id="first_map" style="width:100%; height:400px"></div>
         </div>
 {% endblock %}
