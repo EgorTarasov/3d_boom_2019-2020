@@ -15,7 +15,7 @@
         <br>
         <h2>You need to be logged in to use the service fully</h2>
         <br>
-        <a class="btn btn-success" href="{% url 'login' %}" style="display:block"> Зайти </a>
+        <a class="btn btn-success" href="{% url 'login' %}" style="display:block; width: 20%"> Зайти </a>
     {% endif %}
     {% for each in bins %}
             <div class="card bins" style="width: 18rem;display:inline-block" >
@@ -57,17 +57,16 @@
                     iconImageOffset: [-5, -38]
                     }),
                     bins_Placemarks.push(myPlacemark)
-                  }
-                  b = 0;
-                }
+                    }
+                      b = 0;
+                    }
                     let moscow_map = new ymaps.Map("first_map", {
                         center: [55.76, 37.64],
                         zoom: 10
                     });
-
-                  for( let i in bins_Placemarks ){
-                    moscow_map.geoObjects.add(myPlacemark)
-                  }
+                    for(let i = 0; i < bins_Placemarks.length; i++){
+                      moscow_map.geoObjects.add(bins_Placemarks[i])
+                    }
                 });
           </script>
     <div id="first_map" style="width:100%; height:400px"></div>

@@ -27,9 +27,8 @@ def createBin(request):
     if request.method == 'POST':
         f = BinForm(request.POST)
         if f.is_valid():
-            name = f.data['tittle']
-            description = f.data['description']
-            post = Bins( field_addres=name, ip_addres=description)
+            post = Bins( field_addres=f.data['tittle'], ip_addres=f.data['description'], cordinates_x=f.data['cordinates_x'],
+                         corfinates_y=f.data['cordinates_y'])
             post.save()
         else:
             context['form'] = f

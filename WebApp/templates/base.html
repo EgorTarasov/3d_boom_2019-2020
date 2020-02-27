@@ -9,13 +9,30 @@
     .bins{
       margin:5% 2%;
     }
+    .new_nav{
+      color: #99C24D;
+    }
+    nav{
+      background-color: #99C24D;
+      font-size: 20px;
+      color: white;
+    }
+    .nav-item{
+      color: white;
+    }
+    .nav-link{
+      color: white;
+    }
+    .contentblock{
+      border: 2px solid gray;
+    }
   </style>
 </head>
 <body>
 
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand"href="{% url 'index' %}">SmartBin </a>
+  <nav class="navbar navbar-expand-lg navbar-dark " style="color: #99C24D">
+    <a class="navbar-brand"href="{% url 'index' %}" style="color: white; font-size:25px;">SmartBin </a>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
@@ -41,10 +58,9 @@
     </div>
   </nav>
 
-<div class="container" style="border: 1px solid black; margin: 20px; padding: 20px;">
+<div class="container mx-auto contentblock " style="border: 1px solid black; margin: auto; padding: 20px;">
         {% block content %}
       {% endblock %}
 </div>
-
 </body>
 </html>
