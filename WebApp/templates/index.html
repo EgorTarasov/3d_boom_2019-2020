@@ -18,7 +18,7 @@
         <a class="btn btn-success" href="{% url 'login' %}" style="display:block"> Зайти </a>
     {% endif %}
     {% for each in bins %}
-            <div class="card" style="width: 18rem;display:inline-block" >
+            <div class="card bins" style="width: 18rem;display:inline-block" >
               <div class="card-body">
                 <h3 class="card-title adr">{{ each.field_addres }}</h3>
                 <p class="card-text data">{{ each.ip_addres }}</p>

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Post{% endblock %}
+
+{% block content %}
+<div class="card" style="width: 18rem;display:inline-block" >
+    <div class="card-body">
+        <h3 class="card-title">{{ addres }}</h3>
+            <p class="card-text">{{ data }} / 100 %</p>
+            <p class=" card-text" style="font-size:10px">ip адресс {{ ip }}</p>
+            <p class=" card-text" style="font-size:10px">id мусорки {{ id }}</p>
+              </div>
+            </div>
+{% endblock %}
