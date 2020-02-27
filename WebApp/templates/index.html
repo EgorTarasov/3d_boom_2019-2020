@@ -20,10 +20,10 @@
     {% for each in bins %}
             <div class="card bins" style="width: 18rem;display:inline-block" >
               <div class="card-body">
-                <h3 class="card-title adr">{{ each.field_addres }}</h3>
-                <p class="card-text data">{{ each.ip_addres }}</p>
-                  <p class="card-text">{{each.field_data}} / 100 %</p>
-                </p>
+                <h3 class="card-title address">{{ each.field_addres }}</h3>
+                <p class="card-text ">{{ each.ip_addres }}</p>
+                  <p class="card-text data">{{each.field_data}} / 100 %</p>
+                  <p class='card-text cordinates'>{{each.cordinates_x}} {{each.corfinates_y}} </p>
                   <a href="{{ each.id }}" class="btn btn-primary">Узнать больше</a>
 
               </div>
@@ -32,16 +32,20 @@
         <div class="card">
             <script src="https://api-maps.yandex.ru/2.1/?apikey=в22319956-7c8b-4d3a-82d1-57c7c0876e9d&lang=ru_RU" type="text/javascript"></script>
             <script type="text/javascript">
-                ymaps.ready(function(){
+                let bins_cordinates = document.querySelectorAll('.cordinates');
+                let bins_adress = document.querySelectorAll('.address')
+                let bin_data = document.querySelectorAll('.data')
 
-                    let moscow_map = new ymaps.Map("first_map", {
-                        center: [55.76, 37.64],
-                        zoom: 10
-                    });
-                    myPlacemark = new ymaps.Placemark([55.785078, 37.453163], {
-                    hintContent: 'Живописаня 11с1',
-                    balloonContent: ''
-                }, {
+
+                ymaps.ready(function(){
+                  let b = 1;
+                  let bins_Placemarks = []
+                  if( b == 1){
+                  for(let i = 0; i < bin_data.length; i++){
+                    myPlacemark = new ymaps.Placemark(bins_cordinates[i].innerHTML.split(" "), {
+                    hintContent: bins_adress[i].innerHTML,
+                    balloonContent: bin_data[i].innerHTML,
+                     }, {
                     // Опции.
                     // Необходимо указать данный тип макета.
                     iconLayout: 'default#image',
@@ -51,10 +55,20 @@
                     // Смещение левого верхнего угла иконки относительно
                     // её "ножки" (точки привязки).
                     iconImageOffset: [-5, -38]
-                }),
-
-                moscow_map.geoObjects.add(myPlacemark)
+                    }),
+                    bins_Placemarks.push(myPlacemark)
+                  }
+                  b = 0;
+                }
+                    let moscow_map = new ymaps.Map("first_map", {
+                        center: [55.76, 37.64],
+                        zoom: 10
                     });
+
+                  for( let i in bins_Placemarks ){
+                    moscow_map.geoObjects.add(myPlacemark)
+                  }
+                });
           </script>
     <div id="first_map" style="width:100%; height:400px"></div>
         </div>
