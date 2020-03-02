@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .models import Bins
 from .forms import BinForm
-
+from geopy.geocoders import Nominatim
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
@@ -21,14 +21,23 @@ def index(request):
     context['bins'] = bins
     return render(request, 'index.html', context)
 
+
+def set_coordinates(adress):
+    geolocator = Nominatim()
+    location = geolocator.geocode(adress)
+    a, b  = location.latitude, location.longitude
+    return a, b
+
 @login_required
 def createBin(request):
     context = dict()
     if request.method == 'POST':
         f = BinForm(request.POST)
         if f.is_valid():
-            post = Bins( field_addres=f.data['tittle'], ip_addres=f.data['description'], cordinates_x=f.data['cordinates_x'],
-                         corfinates_y=f.data['cordinates_y'])
+            adress = f.data['tittle']
+            x, y = set_coordinates(adress)
+            post = Bins( field_addres=f.data['tittle'], ip_addres=f.data['description'], cordinates_x=x,
+                         corfinates_y=y)
             post.save()
         else:
             context['form'] = f

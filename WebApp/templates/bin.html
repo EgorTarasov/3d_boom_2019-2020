@@ -9,6 +9,17 @@
   {{ form.as_p }}
   <button type="submit">Добавить</button>
 </form>
+            <script src="https://api-maps.yandex.ru/2.1/?apikey=22319956-7c8b-4d3a-82d1-57c7c0876e9d&lang=ru_RU" type="text/javascript"></script>
+            <script type="text/javascript">
+                ymaps.ready(function(){
+                    let moscow_map = new ymaps.Map("first_map", {
+                        center: [55.76, 37.64],
+                        zoom: 10
+                    });
+
+                });
+          </script>
+    <div id="first_map" style="width:100%; height:400px"></div>
 {% if not request.user.is_authenticated %}
 <p><a href="{% url 'index' %}">Войти</a></p>
 {% endif %}
