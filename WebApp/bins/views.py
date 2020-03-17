@@ -1,13 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from .models import Bins
+from .models import Bins, Record
 from .forms import BinForm
 from geopy.geocoders import Nominatim
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
+from datetime import datetime
 
-# Create your views here.
 
 class SignUp(generic.CreateView):
     form_class = UserCreationForm
@@ -27,6 +27,7 @@ def set_coordinates(adress):
     location = geolocator.geocode(adress)
     a, b  = location.latitude, location.longitude
     return a, b
+
 
 @login_required
 def createBin(request):
@@ -49,17 +50,29 @@ def createBin(request):
 def refresh(request, bin_id, data):
     bins = Bins.objects.all()
     bin = bins[int(bin_id) - 1]
+    old_data = bin.field_data
     bin.ref(data)
     bin.save()
     context = dict()
     posts = Bins.objects.all()
     context['bins'] = posts
+    '''
+        1 - значение увеличилось
+        2 - мусор вывезли
+    '''
+    if old_data > data:
+        record = Record(bin=bin_id, value=data, date=datetime.now(), operation='вывоз мусора')
+    else:
+        record = Record(bin=bin_id, value=data, date=datetime.now(), operation='обновление данных')
+    record.save()
     return render(request, 'index.html', context)
+
 
 @login_required
 def binview(request, bin_id):
+    bin_id = int(bin_id) - 1
     bins = Bins.objects.all()
-    bin = bins[int(bin_id) - 1]
+    bin = bins[bin_id]
     context = dict()
     context['addres'] = bin.field_addres
     context['data'] = bin.field_data
@@ -67,4 +80,6 @@ def binview(request, bin_id):
     context['id'] = bin.id
     context['cordinates_x'] = bin.cordinates_x
     context['corfinates_y'] = bin.corfinates_y
+    bin_id += 1
+    context['records'] = Record.objects.filter(bin=bin_id)
     return render(request, 'tittle_page.html', context)

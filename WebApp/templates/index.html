@@ -26,9 +26,13 @@
               <div class="card-body">
                 <h3 class="card-title address">{{ each.field_addres }}</h3>
                 <p class="card-text ">{{ each.ip_addres }}</p>
-                  <p class="card-text data">{{each.field_data}} / 100 %</p>
+                  {% if each.field_data <= 66 %}
+                  <p class="card-text data" style="color:lightgreen;">{{each.field_data}} / 100 %</p>
+                  {% else %}
+                  <p class="card-text data" style="color:red;">{{each.field_data}} / 100 %</p>
+                  {% endif %}
                   <p class='card-text cordinates invisible'>{{each.cordinates_x}} {{each.corfinates_y}} </p>
-                  <a href="{{ each.id }}" class="btn btn-primary">Узнать больше</a>
+                  <a href="{{ each.id }}" class="btn btn-primary">Отсчет</a>
 
               </div>
             </div>

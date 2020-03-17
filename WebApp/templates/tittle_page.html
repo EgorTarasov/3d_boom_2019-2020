@@ -18,10 +18,37 @@
     <div class="card-body">
         <h3 class="card-title address">{{ addres }}</h3>
         <p class="card-text ">{{ ip }}</p>
-        <p class="card-text data">{{ data }} / 100 %</p>
+        {% if data <= 66 %}
+        <p class="card-text data" style="color:lightgreen;">{{ data }} / 100 %</p>
+        {% else %}
+        <p class="card-text data" style="color:red;">{{ data }} / 100 %</p>
+        {% endif %}
         <p class='card-text cordinates invisible'>{{cordinates_x}} {{corfinates_y}} </p>
         <a href="{{ id }}" class="btn btn-primary">Обновить</a>
     </div>
+</div>
+<div class="card" style="width: 48rem; height: 36rem;margin-bottom: 5%;">
+    <h3 class="card-title">Последние операции</h3>
+    <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Процент заполнености </th>
+        <th scope="col">Дата операции</th>
+        <th scope="col">Операция</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for record in records %}
+        <tr>
+          <th scope="row"> {{ record.id}}</th>
+          <td>{{ record.value }}</td>
+          <td>{{ record.date }}</td>
+          <td>{{ record.operation}}</td>
+        </tr>    
+    {% endfor %}
+  </tbody>
+  </table>
 </div>
  <div class="card">
             <script src="https://api-maps.yandex.ru/2.1/?apikey=в22319956-7c8b-4d3a-82d1-57c7c0876e9d&lang=ru_RU" type="text/javascript"></script>
