@@ -8,6 +8,10 @@
         <br>
         <a class="btn btn-primary" href="{% url 'logout' %}"> Выйти </a>
         <a class="btn btn-primary" href="{% url 'create_post' %}">Добавить устройство</a>
+        <div style="margin-top: 2%;">
+            <a class="btn btn-primary btn-lg " href="{% url 'index' %}">Обновить</a>
+        </div>
+
         <br>
         <h2>Мусорки</h2>
     {% else %}
@@ -23,7 +27,7 @@
                 <h3 class="card-title address">{{ each.field_addres }}</h3>
                 <p class="card-text ">{{ each.ip_addres }}</p>
                   <p class="card-text data">{{each.field_data}} / 100 %</p>
-                  <p class='card-text cordinates'>{{each.cordinates_x}} {{each.corfinates_y}} </p>
+                  <p class='card-text cordinates invisible'>{{each.cordinates_x}} {{each.corfinates_y}} </p>
                   <a href="{{ each.id }}" class="btn btn-primary">Узнать больше</a>
 
               </div>
@@ -42,9 +46,10 @@
                   let bins_Placemarks = []
                   if( b == 1){
                   for(let i = 0; i < bin_data.length; i++){
+                    let content = bins_adress[i].innerHTML + " :    " + bin_data[i].innerHTML
                     myPlacemark = new ymaps.Placemark(bins_cordinates[i].innerHTML.split(" "), {
                     hintContent: bins_adress[i].innerHTML,
-                    balloonContent: bin_data[i].innerHTML,
+                    balloonContent: content,
                      }, {
                     // Опции.
                     // Необходимо указать данный тип макета.

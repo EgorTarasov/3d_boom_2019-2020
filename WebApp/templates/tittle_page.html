@@ -3,12 +3,68 @@
 {% block title %}Post{% endblock %}
 
 {% block content %}
+<!--
 <div class="card" style="width: 18rem;display:inline-block" >
     <div class="card-body">
-        <h3 class="card-title">{{ addres }}</h3>
-            <p class="card-text">{{ data }} / 100 %</p>
+        <h3 class="card-title" id="address">{{ addres }}</h3>
+            <p class="card-text" id="data">{{ data }} / 100 %</p>
             <p class=" card-text" style="font-size:10px">ip адресс {{ ip }}</p>
             <p class=" card-text" style="font-size:10px">id мусорки {{ id }}</p>
-              </div>
-            </div>
+            <p class="invisible" id="cordinates" > </p>
+    </div>
+</div>
+-->
+<div class="card bins" style="width: 18rem;display:inline-block" >
+    <div class="card-body">
+        <h3 class="card-title address">{{ addres }}</h3>
+        <p class="card-text ">{{ ip }}</p>
+        <p class="card-text data">{{ data }} / 100 %</p>
+        <p class='card-text cordinates invisible'>{{cordinates_x}} {{corfinates_y}} </p>
+        <a href="{{ id }}" class="btn btn-primary">Обновить</a>
+    </div>
+</div>
+ <div class="card">
+            <script src="https://api-maps.yandex.ru/2.1/?apikey=в22319956-7c8b-4d3a-82d1-57c7c0876e9d&lang=ru_RU" type="text/javascript"></script>
+            <script type="text/javascript">
+                let bins_cordinates = document.querySelectorAll('.cordinates');
+                let bins_adress = document.querySelectorAll('.address')
+                let bin_data = document.querySelectorAll('.data')
+
+
+                ymaps.ready(function(){
+                  let b = 1;
+                  let bins_Placemarks = []
+                  let center = document.querySelector('.cordinates').innerHTML.split(" ")
+                  if( b == 1){
+                  for(let i = 0; i < bin_data.length; i++){
+                    let content = bins_adress[i].innerHTML + " :    " + bin_data[i].innerHTML
+                    myPlacemark = new ymaps.Placemark(bins_cordinates[i].innerHTML.split(" "), {
+                    hintContent: bins_adress[i].innerHTML,
+                    balloonContent: content,
+                     }, {
+                    // Опции.
+                    // Необходимо указать данный тип макета.
+                    iconLayout: 'default#image',
+                    // Своё изображение иконки метки.
+                    // Размеры метки.
+                    iconImageSize: [30, 42],
+                    // Смещение левого верхнего угла иконки относительно
+                    // её "ножки" (точки привязки).
+                    iconImageOffset: [-5, -38]
+                    }),
+                    bins_Placemarks.push(myPlacemark)
+                    }
+                      b = 0;
+                    }
+                    let moscow_map = new ymaps.Map("first_map", {
+                        center: center,
+                        zoom: 10
+                    });
+                    for(let i = 0; i < bins_Placemarks.length; i++){
+                      moscow_map.geoObjects.add(bins_Placemarks[i])
+                    }
+                });
+          </script>
+    <div id="first_map" style="width:100%; height:400px"></div>
+ </div>
 {% endblock %}
