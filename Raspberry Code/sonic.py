@@ -1,62 +1,63 @@
-import RPi.GPIO as GPIO
+'''
+Module to work with HC-sr04
+'''
 import time
- 
+
+import RPi.GPIO as GPIO
+
 
 class UltraSonic:
+    '''
+    class to work with hc-sr04s
+    '''
     def __init__(self):
-        #GPIO Mode (BOARD / BCM)
+        # GPIO Mode (BOARD / BCM)
         GPIO.setmode(GPIO.BCM)
-         
-        #set GPIO Pins
-        self.GPIO_TRIGGER = 18
-        self.GPIO_ECHO = 24
-         
-        #set GPIO direction (IN / OUT)
-        GPIO.setup(self.GPIO_TRIGGER, GPIO.OUT)
-        GPIO.setup(self.GPIO_ECHO, GPIO.IN)
-    
+
+        # set GPIO Pins
+        self.gpio_trigger = 18
+        self.gpio_echo = 24
+
+        # set GPIO direction (IN / OUT)
+        GPIO.setup(self.gpio_trigger, GPIO.OUT)
+        GPIO.setup(self.gpio_echo, GPIO.IN)
+
     def get_mesurement(self):
-        GPIO.output(self.GPIO_TRIGGER, True)
+        '''
+        gets measurement from hc-sr04
+        :return: distance
+        '''
+        GPIO.output(self.gpio_trigger, True)
         time.sleep(0.00001)
-        GPIO.output(self.GPIO_TRIGGER, False)
-        
-        while GPIO.input(self.GPIO_ECHO) == 0:
+        GPIO.output(self.gpio_trigger, False)
+
+        while GPIO.input(self.gpio_echo) == 0:
             start_time = time.time()
-            
-        while GPIO.input(self.GPIO_ECHO) == 1:
+
+        while GPIO.input(self.gpio_echo) == 1:
             stop_time = time.time()
-        
-        elapsed_time = stop_time - start_time 
-        distance = (elapsed_time*34300) / 2
+
+        elapsed_time = stop_time - start_time
+        distance = (elapsed_time * 34300) / 2
         distance = round(distance, 2)
-        
+
         return distance
-    
+
     def middle_value(self):
+        '''
+        Sorting values from hc-sr04
+        by taking 5 measurements
+        and gives middle one
+        :return: correct value
+        '''
         values = list()
-        for value in range(5):
+        number = 0
+        while number < 5:
             values.append(self.get_mesurement())
             time.sleep(0.5)
+            number += 1
         values.sort()
         return values[2]
-    
+
     def __del__(self):
         GPIO.cleanup()
-            
-        
-
-#if __name__ == '__main__':
-#    sonic = UltraSonic()
-#    
-#    try:
-#        while True:
-#            dist = sonic.middle_value()
-#            #print(*dist)
-#            #input()
-#            print ("Measured Distance = %.1f cm" % dist)
-#            time.sleep(1)
-# 
-#        # Reset by pressing CTRL + C
-#    except KeyboardInterrupt:
-#        print("Measurement stopped by User")
-#        GPIO.cleanup()

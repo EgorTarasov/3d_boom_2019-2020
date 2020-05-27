@@ -1,17 +1,27 @@
-from sonic import UltraSonic
+'''
+The main entrance of the program
+'''
+import time
+
 from logger import Logger
 from network import Connection
-import time
+from sonic import UltraSonic
 
 SONIC = UltraSonic()
 LOGGER = Logger()
-CONECTION = Connection()
+CONNECTION = Connection()
+
 
 def main(working_time):
+    '''
+    main function to SmartBin to work
+    :param working_time:
+    :return: status
+    '''
     while working_time > 0:
         command, dist = 'measure', SONIC.middle_value()
         LOGGER.write(command, dist)
-        #logger.write(CONECTION.send_data(dist))
+        # logger.write(CONNECTION.send_data(dist))
         time.sleep(10)
         working_time -= 10
 
